@@ -1,6 +1,10 @@
 # Ubuntu
 $ sudo apt-get install cmake libboost-all-dev build-essential
 
+# OSX
+$ tar -vzxf boost_1_47_0.tar.gz
+$ sudo mv boost_1_47_0/boost /usr/include
+
 # Compile and run tests
 $ cmake .
 $ make test
