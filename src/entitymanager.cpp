@@ -21,16 +21,11 @@
 #include <entitymanager.h>
 
 /*!
- * Constructor
+ * Create a new entity object and add it to the collection
  */
-EntityManager::EntityManager() { }
-
-/*!
- * Destructor
- */
-EntityManager::~EntityManager() { }
-
-
-void fatalError( const std::string& msg ) { std::cerr << msg << std::endl; exit(255); }
-
+Entity& EntityManager::create( const std::string& name) {
+    Entity* entity = new Entity(name);
+    entities.push_back(entity);
+    return (Entity&) *entity;
+}
 

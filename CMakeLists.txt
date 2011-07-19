@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------
 # Derrick Wippler 2011 (thrawn01@gmail.com) 
 # ----------------------------------------------------------------
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 PROJECT(LETO)
 
@@ -36,6 +36,7 @@ SET(LIBRARY_OUTPUT_PATH ${LETO_SOURCE_DIR}/lib)
 # Find Packages Needed for Testing
 FIND_PACKAGE(PythonInterp)
 FIND_PACKAGE(Perl)
+FIND_PACKAGE(Boost COMPONENTS serialization )
 
 # Set to svn so Ctest doesn't 
 # complain and confuse users

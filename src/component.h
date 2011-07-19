@@ -1,4 +1,4 @@
-/*  This file is part of the Ollie Test Suite
+/*  This file is part of the Leto libraries
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public
@@ -15,34 +15,23 @@
  *  the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  *  Boston, MA 02110-1301, USA.
  *
- *  Copyright (C) 2007 Derrick J. Wippler <thrawn01@gmail.com>
+ *  Copyright (C) 2011 Derrick J. Wippler <thrawn01@gmail.com>
  **/
 
-#include "cxxtest/TestSuite.h"
-#include <iostream>
-#include <fstream>
-#include <errno.h>
+#ifndef COMPONENT_INCLUDE_H
+#define COMPONENT_INCLUDE_H
 
-#include "entitymanager.h"
+#include "component.h"
 
-using namespace std;
-
-// --------------------------------
-//  Unit Test for leto.cpp
-// --------------------------------
-class EntityManagerTests : public CxxTest::TestSuite {
-
-    public: 
-        // --------------------------------
-        // --------------------------------
-        void testCreate( void ) {
-
-            EntityManager entityManager;
-
-            Entity& entity = entityManager.create("entityName");
-            TS_ASSERT_EQUALS( entity.name, "entityName" );
-           
-        }
-
+/*!
+ * Represents a Component
+ */
+class Component {
+    
+    public:
+        // Constructor / Destructor
+        Component();
+        ~Component();
 };
 
+#endif // COMPONENT_INCLUDE_H

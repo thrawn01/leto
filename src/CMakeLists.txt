@@ -3,11 +3,11 @@
 # ----------------------------------------------------------------
 
 # Add the leto Library
-ADD_LIBRARY(leto leto.cpp )
+ADD_LIBRARY(leto entitymanager.cpp )
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
 ENABLE_TESTING()
 
-ADD_CXXTEST(letoTests letoTests.h )
-TARGET_LINK_LIBRARIES(letoTests leto )
+ADD_CXXTEST(entityManagerTests entityManagerTests.h )
+TARGET_LINK_LIBRARIES(entityManagerTests leto )
 
