@@ -15,20 +15,22 @@
  *  the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  *  Boston, MA 02110-1301, USA.
  *
- *  Copyright (C) 2007 Derrick J. Wippler <thrawn01@gmail.com>
+ *  Copyright (C) 2011 Derrick J. Wippler <thrawn01@gmail.com>
  **/
 
-#include <leto.h>
+#include <entitymanager.h>
 
 /*!
  * Constructor
  */
-Leto::Leto() { }
+EntityManager::EntityManager() { }
 
 /*!
  * Destructor
  */
-Leto::~Leto() { }
+EntityManager::~EntityManager() { }
 
 
 void fatalError( const std::string& msg ) { std::cerr << msg << std::endl; exit(255); }
+
+
