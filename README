@@ -1,0 +1,6 @@
+# Ubuntu
+$ sudo apt-get install cmake libboost-all-dev build-essential
+
+# Compile and run tests
+$ cmake .
+$ make test
