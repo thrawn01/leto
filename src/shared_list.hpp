@@ -22,6 +22,7 @@
 #define SHARED_LIST_INCLUDE_H
 
 #include <list>
+#include <boost/shared_ptr.hpp>
 
     template <class T>
     class shared_list : public std::list<boost::shared_ptr<T> > {

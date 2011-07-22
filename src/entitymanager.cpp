@@ -23,10 +23,10 @@
 /*!
  * Create a new entity object and add it to the collection
  */
-Entity& EntityManager::create( const std::string& name) {
-    Entity* entity = new Entity(name);
+Entity* EntityManager::create( ) {
+    Entity* entity = new Entity(++entitySeq);
     entities.push_back(entity);
-    return (Entity&) *entity;
+    return entity;
 }
 
 
@@ -53,4 +53,37 @@ EntityList EntityManager::select( boost::function<bool (Entity* e)> callBack ) {
     return returnValues;
 }
 
+
+/*!
+ * Add an component to the entity
+ */
+bool EntityManager::addComponent( Entity* entity, Component* component ) { 
+    entity->components[component->name] = boost::shared_ptr<Component>(component);
+}
+
+/*!
+ * Get a Component from this entity
+ */
+Component* EntityManager::getComponent( Entity* entity, const std::string& name ) {
+    return entity->components[name].get();
+}
+
+/*!
+ * Returns true if the entity has this component
+ */
+bool EntityManager::hasComponent( Entity* entity, const std::string& name ) {
+    return (bool)entity->components[name].get();
+}
+
+/*!
+ * Return an entity with id of
+ */
+Entity* EntityManager::getEntity( int _id ) {
+    for( EntityIterator it = entities.begin(); it != entities.end(); ++it ) {
+        if(it->get()->id == _id) {
+            return it->get();
+        }
+    }
+    return (Entity*)0;
+}
 

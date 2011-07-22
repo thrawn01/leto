@@ -18,28 +18,19 @@
  *  Copyright (C) 2011 Derrick J. Wippler <thrawn01@gmail.com>
  **/
 
-#ifndef ENTITY_INCLUDE_H
-#define ENTITY_INCLUDE_H
+#ifndef SHARED_MAP_INCLUDE_H
+#define SHARED_MAP_INCLUDE_H
 
-#include "component.h"
-#include "shared_map.hpp"
+#include <map>
+#include <boost/shared_ptr.hpp>
 
-typedef shared_map<Component>::iterator ComponentIterator;
-typedef shared_map<Component> ComponentMap;
-
-/*!
- * Represents a Entity
- */
-class Entity : boost::noncopyable {
-
-    public:
-        // Constructor / Destructor
-        Entity(int _id): id(_id) { }
-        ~Entity() { }
-
-        int id;
-        ComponentMap components;
-};
+    template <class T>
+    class shared_map : public std::map<std::string, boost::shared_ptr<T> > {
+        
+        typedef std::map<const std::string&, boost::shared_ptr<T> > base;
 
 
-#endif // ENTITY_INCLUDE_H
+    }; // class 'shared_map'
+
+
+#endif // SHARED_MAP_INCLUDE_H

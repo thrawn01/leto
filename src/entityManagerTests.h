@@ -33,15 +33,64 @@ using namespace std;
 class EntityManagerTests : public CxxTest::TestSuite {
 
     public: 
+
         // --------------------------------
         // --------------------------------
         void testCreate( void ) {
 
             EntityManager entityManager;
-
-            Entity& entity = entityManager.create("entityName");
-            TS_ASSERT_EQUALS( entity.name, "entityName" );
+            Entity* entity = entityManager.create();
+            TS_ASSERT_EQUALS( entity->id, 1 );
            
+        }
+
+        // --------------------------------
+        // --------------------------------
+        void testgetEntities( void ) {
+
+            EntityManager entityManager;
+            entityManager.create();
+            entityManager.create();
+
+            Entity* entity = entityManager.getEntity(1);
+            TS_ASSERT_EQUALS( entity->id, 1 );
+
+            entity = entityManager.getEntity(2);
+            TS_ASSERT_EQUALS( entity->id, 2 );
+           
+        }
+
+        // --------------------------------
+        // --------------------------------
+        void testNoComponent( void ) {
+
+            EntityManager entityManager;
+            Entity* entity = entityManager.create();
+            TS_ASSERT_EQUALS( entity->id, 1 );
+
+            // Entity has no components
+            TS_ASSERT_EQUALS( entityManager.hasComponent( entity, "TargetComponent" ), false );
+            TS_ASSERT_EQUALS( entityManager.getComponent( entity, "TargetComponent" ), (Component*)0 );
+        
+        }
+
+        // --------------------------------
+        // --------------------------------
+        void testComponentManagement( void ) {
+
+            EntityManager entityManager;
+
+            // Create an entity
+            Entity* entity = entityManager.create();
+            TS_ASSERT_EQUALS( entity->id, 1 );
+
+            // Add a Component
+            entityManager.addComponent( entity, new Component("TargetComponent"));
+
+            // Assert we can get the component
+            Component* component = entityManager.getComponent( entity, "TargetComponent");
+            TS_ASSERT_EQUALS( component->name, "TargetComponent" );
+
         }
 
 };

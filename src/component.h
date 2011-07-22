@@ -31,11 +31,10 @@ class Component {
     
     public:
         // Constructor / Destructor
-        Component() { }
+        Component( const std::string& _name): name(_name) { }
         ~Component() { }
-};
 
-typedef shared_list<Component>::iterator ComponentIterator;
-typedef shared_list<Component> ComponentList;
+        std::string name;
+};
 
 #endif // COMPONENT_INCLUDE_H

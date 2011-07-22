@@ -34,6 +34,8 @@
 #include "component.h"
 #include "shared_list.hpp"
 
+typedef shared_list<Entity>::iterator EntityIterator;
+typedef shared_list<Entity> EntityList;
 
 /*!
  * Manages the entity component data structure
@@ -42,29 +44,32 @@ class EntityManager : boost::noncopyable {
     
     public:
         // Constructor / Destructor
-        EntityManager() { }
+        EntityManager(): entitySeq(0) { }
         ~EntityManager() { }
        
         // Create a new entity and add it to the collection
-        Entity& create( const std::string& );
+        Entity* create( );
 
         // Remove this entity from the Collection
         bool remove( const Entity& ) { }
+
+        // Return a component of a specific type
+        Entity* getEntity( int );
 
         // Return all the components for this entity
         boost::ptr_list<Component> getComponents( const Entity& ) { }
 
         // Return a component of a specific type
-        Component& getComponent( Entity&, const std::string& ) { }
+        Component* getComponent( Entity*, const std::string& );
         
         // Returns true if the entity has this component
-        bool hasComponent( Entity*, const std::string&  ) { }
+        bool hasComponent( Entity*, const std::string&  );
 
         // Add a component to an entity
-        bool addComponent( Entity*, Component& ) { }
+        bool addComponent( Entity*, Component* );
 
         // Remove a component from an entity
-        bool removeComponent( Entity*, const Component& ) { }
+        bool removeComponent( Entity*, const Component* ) { }
         bool removeComponent( Entity*, const std::string& ) { }
 
         // return the total count of entities
@@ -109,6 +114,7 @@ class EntityManager : boost::noncopyable {
         std::stringstream _streamWarningMsg;
         // Entity Collection
         shared_list<Entity> entities;
+        int entitySeq;
 };
 
 /*!
