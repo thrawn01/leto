@@ -27,13 +27,17 @@
  * Represents a Entity
  */
 class Entity : boost::noncopyable {
-    
+
     public:
         // Constructor / Destructor
         Entity( const std::string& _name): name(_name) { }
         ~Entity() { }
 
         std::string name;
+        ComponentList components;
 };
+
+typedef shared_list<Entity>::iterator EntityIterator;
+typedef shared_list<Entity> EntityList;
 
 #endif // ENTITY_INCLUDE_H

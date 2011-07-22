@@ -18,39 +18,24 @@
  *  Copyright (C) 2011 Derrick J. Wippler <thrawn01@gmail.com>
  **/
 
-#include <entitymanager.h>
+#ifndef SHARED_LIST_INCLUDE_H
+#define SHARED_LIST_INCLUDE_H
 
-/*!
- * Create a new entity object and add it to the collection
- */
-Entity& EntityManager::create( const std::string& name) {
-    Entity* entity = new Entity(name);
-    entities.push_back(entity);
-    return (Entity&) *entity;
-}
+#include <list>
 
+    template <class T>
+    class shared_list : public std::list<boost::shared_ptr<T> > {
+        
+        typedef std::list<boost::shared_ptr<T> > base;
 
-/*!
- * Return the all entities that have this component
- */
-/*boost::ptr_list<Entity> EntityManager::select( const std::string& _name ) {
-    MatchComponent match;
-    match.name = _name;
-    return select( boost::ref(match) );
-}*/
+        public:
+            void push_back( T* value) {
+                base::push_back(boost::shared_ptr<T>(value));
+            }
+            /*base::iterator<T> begin( ) { base::begin(); }
+            base::iterator<T> end( ) { base::end(); }*/
 
-/*!
- * Return all entities that pass the truth test
- */
-EntityList EntityManager::select( boost::function<bool (Entity* e)> callBack ) {
-    EntityList returnValues;
-    
-    for( EntityIterator it = entities.begin(); it != entities.end(); ++it ) {
-        if(callBack(it->get())) {
-            returnValues.push_back(it->get());
-        }
-    }
-    return returnValues;
-}
+    }; // class 'shared_list'
 
 
+#endif // SHARED_LIST_INCLUDE_H

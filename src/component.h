@@ -22,6 +22,7 @@
 #define COMPONENT_INCLUDE_H
 
 #include "component.h"
+#include "shared_list.hpp"
 
 /*!
  * Represents a Component
@@ -30,8 +31,11 @@ class Component {
     
     public:
         // Constructor / Destructor
-        Component();
-        ~Component();
+        Component() { }
+        ~Component() { }
 };
+
+typedef shared_list<Component>::iterator ComponentIterator;
+typedef shared_list<Component> ComponentList;
 
 #endif // COMPONENT_INCLUDE_H
