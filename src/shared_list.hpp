@@ -33,10 +33,11 @@
             void push_back( T* value) {
                 base::push_back(boost::shared_ptr<T>(value));
             }
-            /*base::iterator<T> begin( ) { base::begin(); }
-            base::iterator<T> end( ) { base::end(); }*/
+            void push_back( boost::shared_ptr<T> value) {
+                base::push_back(value);
+            }
 
-    }; // class 'shared_list'
+    };
 
 
 #endif // SHARED_LIST_INCLUDE_H

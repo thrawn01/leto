@@ -46,7 +46,7 @@ class EntityManagerTests : public CxxTest::TestSuite {
 
         // --------------------------------
         // --------------------------------
-        void testgetEntities( void ) {
+        void testManageEntities( void ) {
 
             EntityManager entityManager;
             entityManager.create();
@@ -57,7 +57,12 @@ class EntityManagerTests : public CxxTest::TestSuite {
 
             entity = entityManager.getEntity(2);
             TS_ASSERT_EQUALS( entity->id, 2 );
-           
+            TS_ASSERT_EQUALS( entityManager.count(), 2 );
+         
+            // Remove the entity from the colleciton
+            TS_ASSERT_EQUALS( entityManager.erase( entity ), true );
+            TS_ASSERT_EQUALS( entityManager.count(), 1 );
+
         }
 
         // --------------------------------
@@ -85,13 +90,58 @@ class EntityManagerTests : public CxxTest::TestSuite {
             TS_ASSERT_EQUALS( entity->id, 1 );
 
             // Add a Component
-            entityManager.addComponent( entity, new Component("TargetComponent"));
+            entityManager.addComponent( entity, new Component("Target"));
+            entityManager.addComponent( entity, new Component("Health"));
 
             // Assert we can get the component
-            Component* component = entityManager.getComponent( entity, "TargetComponent");
-            TS_ASSERT_EQUALS( component->name, "TargetComponent" );
+            Component* component = entityManager.getComponent( entity, "Target");
+            TS_ASSERT_EQUALS( component->name, "Target" );
+
+            entityManager.removeComponent( entity, "Target");
+            TS_ASSERT_EQUALS( entityManager.getComponent( entity, "Target"), (Component*)0 );
+
+            component = entityManager.getComponent( entity, "Health");
+            TS_ASSERT_EQUALS( component->name, "Health" );
+            entityManager.removeComponent( entity, component );
+            TS_ASSERT_EQUALS( entityManager.getComponent( entity, "Health"), (Component*)0 );
 
         }
 
+        // --------------------------------
+        // --------------------------------
+        void testSelectMethods( void ) {
+
+            EntityManager entityManager;
+
+            // Create some entities
+            Entity* entity = entityManager.create();
+            TS_ASSERT_EQUALS( entity->id, 1 );
+            entityManager.addComponent( entity, new Component("Enemy"));
+            entityManager.addComponent( entity, new Component("Health"));
+            entityManager.addComponent( entity, new Component("Rifle"));
+
+            entity = entityManager.create();
+            TS_ASSERT_EQUALS( entity->id, 2 );
+            entityManager.addComponent( entity, new Component("Enemy"));
+            entityManager.addComponent( entity, new Component("Health"));
+            entityManager.addComponent( entity, new Component("Pistol"));
+
+            entity = entityManager.create();
+            TS_ASSERT_EQUALS( entity->id, 3 );
+            entityManager.addComponent( entity, new Component("Player"));
+            entityManager.addComponent( entity, new Component("Health"));
+            entityManager.addComponent( entity, new Component("Knife"));
+
+            // Select all the entities that have the 'Enemy' Component
+            EntityList list = entityManager.select( "Enemy" );
+            // Found 2 enemies
+            TS_ASSERT_EQUALS( list.size(), 2 );
+
+            // Find the only Player entity
+            entity = entityManager.find("Player");
+            TS_ASSERT_EQUALS( entity->id, 3 );
+            // Ensure this entity has the player component
+            TS_ASSERT( entity->components["Player"].get() != (Component*)0 );
+        }
 };
 

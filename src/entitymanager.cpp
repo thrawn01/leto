@@ -33,24 +33,44 @@ Entity* EntityManager::create( ) {
 /*!
  * Return the all entities that have this component
  */
-/*boost::ptr_list<Entity> EntityManager::select( const std::string& _name ) {
-    MatchComponent match;
-    match.name = _name;
-    return select( boost::ref(match) );
-}*/
+EntityList EntityManager::select( const std::string& _name ) {
+    MatchComponent match(_name);
+    return select_func( boost::ref(match) );
+}
 
 /*!
  * Return all entities that pass the truth test
  */
-EntityList EntityManager::select( boost::function<bool (Entity* e)> callBack ) {
+EntityList EntityManager::select_func( boost::function<bool (Entity* e)> callBack ) {
     EntityList returnValues;
     
     for( EntityIterator it = entities.begin(); it != entities.end(); ++it ) {
         if(callBack(it->get())) {
-            returnValues.push_back(it->get());
+            returnValues.push_back(*it);
         }
     }
     return returnValues;
+}
+
+/*!
+ * Return the first entity that has this component
+ */
+Entity* EntityManager::find( const std::string& _name ) {
+    MatchComponent match(_name);
+    return find_func( boost::ref(match) );
+}
+
+/*!
+ * Return the first entity that passes the truth test
+ */
+Entity* EntityManager::find_func( boost::function<bool (Entity* e)> callBack ) {
+    
+    for( EntityIterator it = entities.begin(); it != entities.end(); ++it ) {
+        if(callBack(it->get())) {
+            return it->get();
+        }
+    }
+    return (Entity*)0;
 }
 
 
@@ -73,6 +93,41 @@ Component* EntityManager::getComponent( Entity* entity, const std::string& name 
  */
 bool EntityManager::hasComponent( Entity* entity, const std::string& name ) {
     return (bool)entity->components[name].get();
+}
+
+/*!
+ * Removes a component from an entity by name
+ */
+bool EntityManager::removeComponent( Entity* entity, const std::string& name ) {
+    if( hasComponent( entity, name ) ) {
+        entity->components.erase(name);
+        return true;
+    }
+    return false;
+}
+
+/*!
+ * Removes a component from an entity by pointer 
+ */
+bool EntityManager::removeComponent( Entity* entity, Component* component ) {
+    if( hasComponent( entity, component->name ) ) {
+        entity->components.erase(component->name);
+        return true;
+    }
+    return false;
+}
+
+/*!
+ * Remove and delete entity from the collection
+ */
+bool EntityManager::erase( Entity *entity ) {
+    for( EntityIterator it = entities.begin(); it != entities.end(); ++it ) {
+        if(it->get() == entity) {
+            entities.erase(it);
+            return true;
+        }
+    }
+    return false;
 }
 
 /*!
